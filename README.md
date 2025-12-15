@@ -5,8 +5,8 @@
 
 ### Anggota Kelompok
 103112430075 - Nadira Hikmah Fatheena
-103112430114 - Shellyn Euriska Putri
-103112430115 - Regita Hutri Cahyaningrum
+<br>103112430114 - Shellyn Euriska Putri
+<br>103112430115 - Regita Hutri Cahyaningrum
 
 ### Deskripsi Proyek
 BloomTrack adalah aplikasi sistem manajemen florist yang memanfaatkan struktur data Binary Search Tree (BST) untuk mengelola data produk bunga dan transaksi harian secara efisien. Sistem ini dirancang untuk membantu toko bunga dalam mengorganisir inventori, mencari produk dengan cepat, dan melacak transaksi penjualan harian.
