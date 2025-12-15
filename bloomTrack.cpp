@@ -599,10 +599,10 @@ void tampilkanMenu() {
     cout << "  2. Lihat Katalog\n";
     cout << "  3. Cari Bouquet\n";
     cout << "  4. Transaksi Penjualan\n";
-    cout << "  5. Update Info Bouquet\n";
-    cout << "  6. Hapus Bouquet\n";
-    cout << "  7. Manajemen Gudang\n";
-    cout << "  8. Laporan Statistik\n";
+    // cout << "  5. Update Info Bouquet\n";
+    cout << "  5. Hapus Bouquet\n";
+    cout << "  6. Manajemen Gudang\n";
+    cout << "  7. Laporan Statistik\n";
     cout << "  0. Keluar\n";
     cout << "================================================\n";
     cout << "Pilihan: ";
