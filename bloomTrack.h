@@ -26,14 +26,25 @@ struct BST {
     BST* right;
 };
 
-BST* buatNode(Bouquet bouquet);
-BST* search(BST* tree, string namaBouquet);
-BST* findMin(BST* tree);
-BST* findMax(BST* tree);
+typedef BST* node;
+typedef BST* BinTree;
+#define Nil nullptr
 
-BST* insert(BST* tree, Bouquet bouquet);
-BST* deleteNode(BST* tree, string namaBouquet);
-bool updateBouquet(BST* tree, string namaBouquet);
+bool isEmpty(BinTree tree);
+void createTree(BinTree &tree);
+node alokasi(Bouquet bouquet);
+void dealokasi(node nodeHapus);
+void insertNode(BinTree &tree, node nodeBaru);
+BST* search(BST* tree, string namaBouquet);
+void searchByData(BinTree tree, string namaBouquet);
+node mostLeft(BinTree tree);
+node mostRight(BinTree tree);
+bool deleteNode(BinTree &tree, string namaBouquet);
+void deleteTree(BinTree &tree);
+int size(BinTree tree);
+int height(BinTree tree);
+
+// bool updateBouquet(BST* tree, string namaBouquet);
 
 void inorder(BST* tree);
 void preorder(BST* tree);
