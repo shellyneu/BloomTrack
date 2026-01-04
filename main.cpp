@@ -6,6 +6,7 @@ using namespace std;
 
 int main() {
     BST* root = Nil;
+    TreeTransaksi rootTransaksi = Nil;
     createTree(root);
     int pilihan;
     
@@ -13,12 +14,19 @@ int main() {
     katalogBouquet(root);
     
     cout << "Selamat datang di BloomTrack Florist System! \n";
-    
-    do {
-        tampilkanMenu();
-        cin >> pilihan;
-        cin.ignore();
-        
+
+    do {        
+       
+        tampilkanMenu(); 
+
+        if (!(cin >> pilihan)) {
+            cin.clear();            
+            cin.ignore(1000, '\n'); 
+            pilihan = -1;           
+        } else {
+            cin.ignore();         
+        }
+                
         switch (pilihan) {
             case 1: 
             {
@@ -45,7 +53,7 @@ int main() {
             case 4: 
             {
                 clearScreen();
-                beliBouquet(root);
+                beliBouquet(root, rootTransaksi);
                 break;
             }
             
@@ -59,21 +67,55 @@ int main() {
             case 6: 
             {
                 clearScreen();
-                cekStokGudang();
+                cout << "\n=== MANAJEMEN GUDANG ===\n";
+                cout << "1. Cek Stok Gudang\n";
+                cout << "2. Restock Bunga\n";
+                cout << "0. Kembali\n";
+                cout << "Pilihan: ";
+                
+                int subPilihan;
+                cin >> subPilihan;
+                cin.ignore();
+                
+                switch(subPilihan) {
+                    case 1:
+                        clearScreen();
+                        cekStokGudang();
+                        break;
+                    case 2:
+                        clearScreen();
+                        restockBunga();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        cout << "Pilihan tidak valid!\n";
+                }
                 break;
             }
             
             case 7: 
             {
                 clearScreen();
-                menuLaporanStatistik();
+                menuLaporanStatistik(root, rootTransaksi);
                 break;
             }
             
             case 0: 
             {
-                clearScreen();
-                cout << "Terima kasih telah menggunakan BloomTrack!\n";
+                cout << "Yakin ingin keluar? (y/n): ";
+                char konfirmasi;
+                cin >> konfirmasi;
+                cin.ignore();
+                
+                if (konfirmasi == 'y' || konfirmasi == 'Y') {
+                    deleteTree(root);
+                    deleteTreeTransaksi(rootTransaksi);
+                    cout << "\nTerima kasih telah menggunakan BloomTrack!\n";
+                } else {
+                    pilihan = -1; 
+                    clearScreen(); 
+                }
                 break;
             }
             
@@ -84,8 +126,10 @@ int main() {
         if (pilihan != 0) {
             cout << "\nTekan Enter untuk melanjutkan...";
             cin.get();
+            clearScreen(); 
         }
         
     } while (pilihan != 0);
     
+    return 0;
 }

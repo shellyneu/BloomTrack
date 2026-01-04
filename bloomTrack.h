@@ -19,18 +19,23 @@ struct Bouquet {
     string namaBouquet;
     long harga;
     string ukuran;
-    string warnaDominan;
     int resepBunga[JUMLAH_JENIS_BUNGA];
 };
 
-struct Transaksi {
-    string namaPembeli;
+const int MAX_ITEM_TRANSAKSI = 10;
+
+struct ItemTransaksi {
     string namaBouquet;
-    long hargaBouquet;
+    long harga;
     string ukuran;
-    string warnaDominan;
-    int resepBunga[JUMLAH_JENIS_BUNGA];
+};
+
+struct Transaksi {
     int nomorTransaksi;
+    string namaPembeli;
+    ItemTransaksi items[MAX_ITEM_TRANSAKSI];
+    int jumlahItem;
+    long totalHarga;
 };
 
 struct BST {
@@ -39,13 +44,22 @@ struct BST {
     BST* right;
 };
 
+struct BSTTransaksi {
+    Transaksi data;
+    BSTTransaksi* left;
+    BSTTransaksi* right;
+};
+
 typedef BST* node;
 typedef BST* BinTree;
+typedef BSTTransaksi* nodeTransaksi;
+typedef BSTTransaksi* TreeTransaksi;
 #define Nil nullptr
 
-const int MAX_TRANSAKSI = 100;
-extern Transaksi riwayatTransaksi[MAX_TRANSAKSI];
-extern int jumlahTransaksi;bool isEmpty(BinTree tree);
+extern int nomorTransaksiTerakhir;
+
+bool isEmpty(BinTree tree);
+bool isEmptyTransaksi(TreeTransaksi tree);
 void createTree(BinTree &tree);
 node alokasi(Bouquet bouquet);
 void dealokasi(node nodeHapus);
@@ -56,6 +70,7 @@ node mostLeft(BinTree tree);
 node mostRight(BinTree tree);
 bool deleteNode(BinTree &tree, string namaBouquet);
 void deleteTree(BinTree &tree);
+void deleteTreeTransaksi(TreeTransaksi &tree);
 int size(BinTree tree);
 int height(BinTree tree);
 
@@ -67,9 +82,17 @@ void levelOrder(BST* tree);
 void searchByHarga(BST* tree, long minHarga, long maxHarga);
 void searchByUkuran(BST* tree, string ukuran);
 
+nodeTransaksi alokasiTransaksi(Transaksi transaksi);
+void dealokasiTransaksi(nodeTransaksi node);
+void insertTransaksi(TreeTransaksi &tree, nodeTransaksi nodeBaru);
+BSTTransaksi* searchTransaksi(TreeTransaksi tree, long totalHarga);
+void inorderTransaksi(TreeTransaksi tree);
+void displayTransaksi(Transaksi t);
+void displayHeaderTransaksi();
+
 bool cekStokCukup(int resepBunga[]);
 void kurangiStok(int resepBunga[]);
-void beliBouquet(BST* tree);
+void beliBouquet(BST* tree, TreeTransaksi &treeTransaksi);
 
 void cekStokGudang();
 void restockBunga();
@@ -83,7 +106,7 @@ void tampilkanStatistik(BST* tree);
 Bouquet inputBouquet();
 void displayBouquet(Bouquet bouquet);
 void displayHeaderKatalog();
-void cetakStruk(Bouquet bouquet, string namaPembeli);
+void cetakStruk(Transaksi transaksi);
 void cetakPenjualanBungaPerHari();
 void katalogBouquet(BinTree &tree);
 
@@ -91,7 +114,8 @@ void tampilkanMenu();
 void menuLihatKatalog(BST* tree);
 void menuCariBouquet(BST* tree);
 void menuHapusBouquet(BST* &tree);
-void menuLaporanStatistik();
+void menuLihatTransaksi(TreeTransaksi tree);
+void menuLaporanStatistik(BST* tree, TreeTransaksi treeTransaksi);
 void clearScreen();
 
 #endif
