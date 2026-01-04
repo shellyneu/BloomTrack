@@ -90,6 +90,7 @@ void katalogBouquet(BinTree &tree);
 void tampilkanMenu();
 void menuLihatKatalog(BST* tree);
 void menuCariBouquet(BST* tree);
+void menuHapusBouquet(BST* &tree);
 void menuLaporanStatistik();
 void clearScreen();
 

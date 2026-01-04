@@ -789,6 +789,43 @@ void menuCariBouquet(BST* tree) {
     }
 }
 
+void menuHapusBouquet(BST* &tree) {
+    if (tree == Nil) {
+        cout << "Katalog masih kosong!\n";
+        return;
+    }
+    
+    cout << "\n=== HAPUS BOUQUET ===\n";
+    cout << "Nama Bouquet yang ingin dihapus: ";
+    string nama;
+    getline(cin, nama);
+    
+    BST* cek = search(tree, nama);
+    if (cek == Nil) {
+        cout << "Bouquet '" << nama << "' tidak ditemukan!\n";
+        return;
+    }
+    
+    cout << "\nBouquet yang akan dihapus:\n";
+    displayHeaderKatalog();
+    displayBouquet(cek->data);
+    
+    cout << "\nApakah Anda yakin ingin menghapus bouquet ini? (y/n): ";
+    char konfirmasi;
+    cin >> konfirmasi;
+    cin.ignore();
+    
+    if (konfirmasi == 'y' || konfirmasi == 'Y') {
+        if (deleteNode(tree, nama)) {
+            cout << "\nBouquet '" << nama << "' berhasil dihapus!\n";
+        } else {
+            cout << "\nGagal menghapus bouquet!\n";
+        }
+    } else {
+        cout << "\nPenghapusan dibatalkan.\n";
+    }
+}
+
 void menuLaporanStatistik() {
     cout << "\n=== MENU LAPORAN STATISTIK ===\n";
     cout << "1. Penjualan Bunga Per Hari\n";

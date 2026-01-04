@@ -52,7 +52,7 @@ int main() {
             case 5: 
             {
                 clearScreen();
-                cout << "FITUR BELUM DIIMPLEMENTASIKAN\n";
+                menuHapusBouquet(root);
                 break;
             }
             
