@@ -9,7 +9,8 @@ int main() {
     createTree(root);
     int pilihan;
     
-    initStokAwal();
+    stokAwal();
+    katalogBouquet(root);
     
     cout << "Selamat datang di BloomTrack Florist System! \n";
     
@@ -25,6 +26,7 @@ int main() {
                 Bouquet baru = inputBouquet();
                 node nodeBaru = alokasi(baru);
                 insertNode(root, nodeBaru);
+                cout << "Bouquet berhasil ditambahkan\n";
                 break;
             }
             
@@ -48,17 +50,32 @@ int main() {
             }
             
             case 5: 
+            {
+                clearScreen();
+                cout << "FITUR BELUM DIIMPLEMENTASIKAN\n";
+                break;
+            }
             
             case 6: 
-
+            {
+                clearScreen();
+                cekStokGudang();
+                break;
+            }
             
             case 7: 
-            
-
-            case 8: 
-
+            {
+                clearScreen();
+                menuLaporanStatistik();
+                break;
+            }
             
             case 0: 
+            {
+                clearScreen();
+                cout << "Terima kasih telah menggunakan BloomTrack!\n";
+                break;
+            }
             
             default:
                 cout << "Pilihan tidak valid! Silakan coba lagi.\n";
