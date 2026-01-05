@@ -16,7 +16,6 @@ int main() {
     cout << "Selamat datang di BloomTrack Florist System! \n";
 
     do {        
-       
         tampilkanMenu(); 
 
         if (!(cin >> pilihan)) {
@@ -31,6 +30,13 @@ int main() {
             case 1: 
             {
                 clearScreen();
+                orderBouquet(root, rootTransaksi);
+                break;
+            }
+            
+            case 2: 
+            {
+                clearScreen();
                 Bouquet baru = inputBouquet();
                 node nodeBaru = alokasi(baru);
                 insertNode(root, nodeBaru);
@@ -38,29 +44,22 @@ int main() {
                 break;
             }
             
-            case 2: 
-            {
-                menuLihatKatalog(root);
-                break;
-            }
-            
             case 3: 
             {
-                menuCariBouquet(root);
+                lihatKatalogBouquet(root);
                 break;
             }
             
             case 4: 
             {
-                clearScreen();
-                beliBouquet(root, rootTransaksi);
+                cariBouquet(root);
                 break;
             }
             
             case 5: 
             {
                 clearScreen();
-                menuHapusBouquet(root);
+                hapusBouquet(root);
                 break;
             }
             
@@ -97,7 +96,7 @@ int main() {
             case 7: 
             {
                 clearScreen();
-                menuLaporanStatistik(root, rootTransaksi);
+                laporanStatistik(root, rootTransaksi);
                 break;
             }
             

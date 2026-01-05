@@ -43,75 +43,35 @@ void insertNode(BST* &root, node newNode) {
     }
 }
 
-
 BST* search(BST* tree, string namaBouquet) {
-    if (tree == Nil || tree->data.namaBouquet == namaBouquet) {
+    if (tree == Nil) {
+        return Nil;
+    }
+    
+    if (tree->data.namaBouquet == namaBouquet) {
         return tree;
     }
     
-    if (namaBouquet < tree->data.namaBouquet) {
-        return search(tree->left, namaBouquet);
-    } 
-    else {
-        return search(tree->right, namaBouquet);
+    BST* found = search(tree->left, namaBouquet);
+    if (found != Nil) {
+        return found;
     }
+    
+    return search(tree->right, namaBouquet);
 }
 
 void searchByData(BinTree tree, string namaBouquet){
     if(isEmpty(tree) == true){
         cout << "Tree kosong!" << endl;
     } else {
-        node nodeBantu = tree;
-        node parent = Nil;
-        bool ketemu = false;
-        while(nodeBantu != Nil){
-            if(namaBouquet < nodeBantu->data.namaBouquet){
-                parent = nodeBantu;
-                nodeBantu = nodeBantu->left;
-            } else if(namaBouquet > nodeBantu->data.namaBouquet){
-                parent = nodeBantu;
-                nodeBantu = nodeBantu->right;
-            } else if(namaBouquet == nodeBantu->data.namaBouquet){
-                ketemu = true;
-                break;
-            }
-        }
-        if(ketemu == false){
+        BST* hasil = search(tree, namaBouquet);
+        if(hasil == Nil){
             cout << "Data tidak ditemukan" << endl;
-        } else if(ketemu == true){
+        } else {
             cout << "\nData ditemukan didalam tree!" << endl;
-            cout << "Nama Bouquet : " << nodeBantu->data.namaBouquet << endl;
-            cout << "Harga        : Rp" << nodeBantu->data.harga << endl;
-            cout << "Ukuran       : " << nodeBantu->data.ukuran << endl;
-
-            node sibling = Nil;
-            if(parent != Nil){
-                cout << "Parent       : " << parent->data.namaBouquet << endl;
-                if(parent->left == nodeBantu){
-                    sibling = parent->right;
-                } else if(parent->right == nodeBantu){
-                    sibling = parent->left;
-                }
-            } else {
-                cout << "Parent       : - (node root)"<< endl;
-            }
-
-            if(sibling != Nil){
-                cout << "Sibling      : " << sibling->data.namaBouquet << endl;
-            } else {
-                cout << "Sibling      : - " << endl;
-            }
-
-            if(nodeBantu->left != Nil){
-                cout << "Child kiri   : " << nodeBantu->left->data.namaBouquet << endl;
-            } else {
-                cout << "Child kiri   : -" << endl;
-            }
-            if(nodeBantu->right != Nil){
-                cout << "Child kanan  : " << nodeBantu->right->data.namaBouquet << endl;
-            } else {
-                cout << "Child kanan  : -" << endl;
-            }
+            cout << "Nama Bouquet : " << hasil->data.namaBouquet << endl;
+            cout << "Harga        : Rp" << hasil->data.harga << endl;
+            cout << "Ukuran       : " << hasil->data.ukuran << endl;
         }
     }
 }
@@ -137,35 +97,37 @@ node mostRight(BinTree tree){
 bool deleteNode(BinTree &tree, string namaBouquet) {
     if (tree == Nil) {
         return false;
-    } else {
-        if (namaBouquet < tree->data.namaBouquet) {
-            return deleteNode(tree->left, namaBouquet);
-        } else if (namaBouquet > tree->data.namaBouquet) {
-            return deleteNode(tree->right, namaBouquet);
-        } else {
-            if (tree->left == Nil && tree->right == Nil) {
-                node tmp = tree;
-                tree = Nil;
-                dealokasi(tmp);
-            }
-            else if (tree->left == Nil) {
-                node tmp = tree;
-                tree = tree->right;
-                dealokasi(tmp);
-            }
-            else if (tree->right == Nil) {
-                node tmp = tree;
-                tree = tree->left;
-                dealokasi(tmp);
-            }
-            else {
-                node successor = mostLeft(tree->right);
-                tree->data = successor->data;
-                return deleteNode(tree->right, successor->data.namaBouquet);
-            }
-            return true;
-        }
     }
+    
+    if (tree->data.namaBouquet == namaBouquet) {
+        if (tree->left == Nil && tree->right == Nil) {
+            node tmp = tree;
+            tree = Nil;
+            dealokasi(tmp);
+        }
+        else if (tree->left == Nil) {
+            node tmp = tree;
+            tree = tree->right;
+            dealokasi(tmp);
+        }
+        else if (tree->right == Nil) {
+            node tmp = tree;
+            tree = tree->left;
+            dealokasi(tmp);
+        }
+        else {
+            node successor = mostLeft(tree->right);
+            tree->data = successor->data;
+            return deleteNode(tree->right, successor->data.namaBouquet);
+        }
+        return true;
+    }
+    
+    bool found = deleteNode(tree->left, namaBouquet);
+    if (!found) {
+        found = deleteNode(tree->right, namaBouquet);
+    }
+    return found;
 }
 
 nodeTransaksi alokasiTransaksi(Transaksi transaksi) {
@@ -306,13 +268,13 @@ void kurangiStok(int resepBunga[]) {
     }
 }
 
-void beliBouquet(BST* tree, TreeTransaksi &treeTransaksi) {
+void orderBouquet(BST* tree, TreeTransaksi &treeTransaksi) {
     if (tree == Nil) {
         cout << "Katalog masih kosong!\n";
         return;
     }
     
-    cout << "\n=== TRANSAKSI PENJUALAN ===\n";
+    cout << "\n=== ORDER BOUQUET ===\n";
     
     cout << "Nama Pembeli: ";
     string namaPembeli;
@@ -387,7 +349,7 @@ void beliBouquet(BST* tree, TreeTransaksi &treeTransaksi) {
             totalBelanja += node->data.harga;
             jumlahItemBeli++;
             
-            cout << "\n✓ Bouquet ditambahkan ke keranjang!\n";
+            cout << "\nBouquet ditambahkan ke keranjang!\n";
             cout << "Total item: " << jumlahItemBeli << " | Total: Rp " << totalBelanja << "\n";
         }
         
@@ -413,7 +375,7 @@ void beliBouquet(BST* tree, TreeTransaksi &treeTransaksi) {
     cout << "Jumlah Item: " << jumlahItemBeli << "\n";
     for (int i = 0; i < jumlahItemBeli; i++) {
         cout << (i+1) << ". " << keranjang[i].namaBouquet 
-             << " (" << keranjang[i].ukuran << ") - Rp " << keranjang[i].harga << "\n";
+                << " (" << keranjang[i].ukuran << ") - Rp " << keranjang[i].harga << "\n";
     }
     cout << string(60, '-') << "\n";
     cout << "TOTAL: Rp " << totalBelanja << "\n";
@@ -450,7 +412,7 @@ void beliBouquet(BST* tree, TreeTransaksi &treeTransaksi) {
     nodeTransaksi nodeTransaksiBaru = alokasiTransaksi(t);
     insertTransaksi(treeTransaksi, nodeTransaksiBaru);
     
-    cout << "\n✓ TRANSAKSI BERHASIL!\n";
+    cout << "\nTRANSAKSI BERHASIL!\n";
     cout << "Nomor Transaksi: #" << t.nomorTransaksi << "\n";
     
     cetakStruk(t);
@@ -667,10 +629,54 @@ void katalogBouquet(BinTree &tree) {
     b4.resepBunga[3] = 3; 
     b4.resepBunga[4] = 0;
     
+    Bouquet b5;
+    b5.namaBouquet = "Mini";
+    b5.harga = 50000;
+    b5.ukuran = "S";
+    b5.resepBunga[0] = 1;
+    b5.resepBunga[1] = 1;
+    b5.resepBunga[2] = 1;
+    b5.resepBunga[3] = 2;
+    b5.resepBunga[4] = 0;
+    
+    Bouquet b6;
+    b6.namaBouquet = "Harmoni";
+    b6.harga = 100000;
+    b6.ukuran = "M";
+    b6.resepBunga[0] = 3;
+    b6.resepBunga[1] = 2;
+    b6.resepBunga[2] = 2;
+    b6.resepBunga[3] = 2;
+    b6.resepBunga[4] = 1;
+    
+    Bouquet b7;
+    b7.namaBouquet = "Premium";
+    b7.harga = 180000;
+    b7.ukuran = "L";
+    b7.resepBunga[0] = 4;
+    b7.resepBunga[1] = 4;
+    b7.resepBunga[2] = 3;
+    b7.resepBunga[3] = 0;
+    b7.resepBunga[4] = 2;
+    
+    Bouquet b8;
+    b8.namaBouquet = "Mewah";
+    b8.harga = 250000;
+    b8.ukuran = "L";
+    b8.resepBunga[0] = 5;
+    b8.resepBunga[1] = 6;
+    b8.resepBunga[2] = 4;
+    b8.resepBunga[3] = 3;
+    b8.resepBunga[4] = 3;
+    
     insertNode(tree, alokasi(b1));
     insertNode(tree, alokasi(b2));
     insertNode(tree, alokasi(b3));
     insertNode(tree, alokasi(b4));
+    insertNode(tree, alokasi(b5));
+    insertNode(tree, alokasi(b6));
+    insertNode(tree, alokasi(b7));
+    insertNode(tree, alokasi(b8));
 }
 
 Bouquet inputBouquet() {
@@ -680,17 +686,68 @@ Bouquet inputBouquet() {
     cout << "Nama Bouquet: ";
     getline(cin, b.namaBouquet);
     
-    cout << "Harga (Rp): ";
-    cin >> b.harga;
+    bool hargaValid = false;
+    while (!hargaValid) {
+        cout << "Harga (Rp): ";
+        if (cin >> b.harga) {
+            if (b.harga > 0) {
+                hargaValid = true;
+            } else {
+                cout << "Error: Harga harus lebih dari 0!\n";
+            }
+        } else {
+            cout << "Error: Format harga tidak sesuai! Harga hanya boleh berupa angka.\n";
+            cin.clear();
+            cin.ignore(1000, '\n');
+        }
+    }
     cin.ignore();
     
-    cout << "Ukuran (S/M/L): ";
-    getline(cin, b.ukuran);
+    bool ukuranValid = false;
+    while (!ukuranValid) {
+        cout << "Ukuran (S/M/L): ";
+        getline(cin, b.ukuran);
+        
+        bool isNumber = true;
+        for (int i = 0; i < b.ukuran.length(); i++) {
+            if (!isdigit(b.ukuran[i])) {
+                isNumber = false;
+                break;
+            }
+        }
+        
+        if (b.ukuran.empty()) {
+            cout << "Error: Ukuran tidak boleh kosong!\n";
+        } else if (isNumber) {
+            cout << "Error: Format tidak valid! Ukuran harus berupa huruf (S/M/L), bukan angka.\n";
+        } else if (b.ukuran == "S" || b.ukuran == "M" || b.ukuran == "L" || 
+                    b.ukuran == "s" || b.ukuran == "m" || b.ukuran == "l") {
+            if (b.ukuran == "s") b.ukuran = "S";
+            if (b.ukuran == "m") b.ukuran = "M";
+            if (b.ukuran == "l") b.ukuran = "L";
+            ukuranValid = true;
+        } else {
+            cout << "Error: Ukuran tidak valid! Hanya menerima S, M, atau L.\n";
+        }
+    }
     
     cout << "\nResep Bunga (jumlah tangkai yang dibutuhkan):\n";
     for (int i = 0; i < JUMLAH_JENIS_BUNGA; i++) {
-        cout << "  " << NAMA_BUNGA[i] << ": ";
-        cin >> b.resepBunga[i];
+        bool resepValid = false;
+        while (!resepValid) {
+            cout << "  " << NAMA_BUNGA[i] << ": ";
+            if (cin >> b.resepBunga[i]) {
+                if (b.resepBunga[i] >= 0) {
+                    resepValid = true;
+                } else {
+                    cout << "Error: Jumlah tangkai tidak boleh negatif!\n";
+                }
+            } else {
+                cout << "Error: Format tidak sesuai! Jumlah tangkai hanya boleh berupa angka.\n";
+                cin.clear();
+                cin.ignore(1000, '\n');
+            }
+        }
     }
     cin.ignore();
     
@@ -759,7 +816,7 @@ void cetakStruk(Transaksi transaksi) {
     cout << "Item yang dibeli:\n";
     for (int i = 0; i < transaksi.jumlahItem; i++) {
         cout << "  " << (i+1) << ". " << transaksi.items[i].namaBouquet 
-             << " (" << transaksi.items[i].ukuran << ")\n";
+                << " (" << transaksi.items[i].ukuran << ")\n";
         cout << "     Rp " << transaksi.items[i].harga << "\n";
     }
     cout << string(60, '-') << "\n";
@@ -810,19 +867,19 @@ void tampilkanMenu() {
     cout << "================================================\n";
     cout << "         BLOOMTRACK - FLORIST SYSTEM        \n";
     cout << "================================================\n";
-    cout << "  1. Tambah Bouquet Baru\n";
-    cout << "  2. Lihat Katalog\n";
-    cout << "  3. Cari Bouquet\n";
-    cout << "  4. Transaksi Penjualan\n";
+    cout << "  1. Order Bouquet\n";
+    cout << "  2. Tambah Bouquet\n";
+    cout << "  3. Lihat Katalog Bouquet\n";
+    cout << "  4. Cari Bouquet\n";
     cout << "  5. Hapus Bouquet\n";
     cout << "  6. Manajemen Gudang\n";
     cout << "  7. Laporan Statistik\n";
-    cout << "  0. Keluar\n";
+    cout << "  0. KELUAR\n";
     cout << "================================================\n";
     cout << "Pilihan: ";
 }
 
-void menuLihatKatalog(BST* tree) {
+void lihatKatalogBouquet(BST* tree) {
     if (tree == Nil) {
         cout << "Katalog masih kosong!\n";
         return;
@@ -830,10 +887,11 @@ void menuLihatKatalog(BST* tree) {
     
     clearScreen();
     cout << "\n=== KATALOG BOUQUET ===\n";
-    cout << "1. Inorder (Urut A-Z)\n";
-    cout << "2. Preorder\n";
-    cout << "3. Postorder\n";
-    cout << "4. Level Order\n";
+    cout << "Pilih cara tampilan:\n";
+    cout << "1. Berdasarkan Harga (Termurah ke Termahal)\n";
+    cout << "2. Berdasarkan Harga Menengah Dulu\n";
+    cout << "3. Berdasarkan Harga Ekstrem (Budget & Premium)\n";
+    cout << "4. Berdasarkan Urutan Penambahan\n";
     cout << "Pilihan: ";
     
     int pilihan;
@@ -844,19 +902,19 @@ void menuLihatKatalog(BST* tree) {
     
     switch (pilihan) {
         case 1:
-            cout << "[INORDER TRAVERSAL]\n";
+            cout << "[INORDER TRAVERSAL - TAMPILAN TERMURAH KE TERMAHAL]\n";
             inorder(tree);
             break;
         case 2:
-            cout << "[PREORDER TRAVERSAL]\n";
+            cout << "[PREORDER TRAVERSAL - TAMPILAN HARGA MENENGAH PRIORITAS]\n";
             preorder(tree);
             break;
         case 3:
-            cout << "[POSTORDER TRAVERSAL]\n";
+            cout << "[POSTORDER TRAVERSAL - TAMPILAN HARGA EKSTREM (Budget & Premium Dulu)]\n";
             postorder(tree);
             break;
         case 4:
-            cout << "[LEVEL ORDER TRAVERSAL]\n";
+            cout << "[LEVEL ORDER TRAVERSAL - TAMPILAN BERDASARKAN URUTAN PENAMBAHAN]\n";
             levelOrder(tree);
             break;
         default:
@@ -864,7 +922,7 @@ void menuLihatKatalog(BST* tree) {
     }
 }
 
-void menuCariBouquet(BST* tree) {
+void cariBouquet(BST* tree) {
     if (tree == Nil) {
         cout << "Katalog masih kosong!\n";
         return;
@@ -887,7 +945,6 @@ void menuCariBouquet(BST* tree) {
             string nama;
             getline(cin, nama);
             
-            // Validasi input tidak kosong
             if (nama.empty()) {
                 cout << endl << "Nama bouquet tidak boleh kosong!\n";
                 break;
@@ -895,56 +952,64 @@ void menuCariBouquet(BST* tree) {
             
             BST* hasil = search(tree, nama);
             if (hasil != Nil) {
-                cout << "\n✓ Bouquet ditemukan:\n";
+                cout << "\nBouquet ditemukan:\n";
                 displayHeaderKatalog();
                 displayBouquet(hasil->data);
             } 
             else {
                 cout << endl << "Bouquet dengan nama '" << nama 
-                     << "' tidak ada dalam katalog.\n";
+                    << "' tidak ada dalam katalog.\n";
             }
             break;
         }
         case 2: {
             long min, max;
-            cout << "Harga Minimum (Rp): ";
+            bool inputValid = false;
             
-            // Validasi input harga minimum
-            if (!(cin >> min)) {
-                cin.clear();
-                cin.ignore(1000, '\n');
-                cout << "\nHarga minimum harus berupa angka!\n";
-                break;
+            while (!inputValid) {
+                cout << "Harga Minimum (Rp): ";
+                
+                if (!(cin >> min)) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    cout << "Error: Harga minimum harus berupa angka!\n";
+                    continue;
+                }
+                
+                if (min <= 0) {
+                    cin.ignore(1000, '\n');
+                    cout << "Error: Harga minimum harus lebih dari 0!\n";
+                    continue;
+                }
+                
+                inputValid = true;
             }
             
-            // Validasi nilai logis harga minimum
-            if (min <= 0) {
-                cin.ignore(1000, '\n');
-                cout << "\nHarga minimum harus lebih dari 0!\n";
-                break;
-            }
-            
-            cout << "Harga Maksimum (Rp): ";
-            
-            // Validasi input harga maksimum
-            if (!(cin >> max)) {
-                cin.clear();
-                cin.ignore(1000, '\n');
-                cout << "\nHarga maksimum harus berupa angka!\n";
-                break;
+            inputValid = false;
+            while (!inputValid) {
+                cout << "Harga Maksimum (Rp): ";
+                
+                if (!(cin >> max)) {
+                    cin.clear();
+                    cin.ignore(1000, '\n');
+                    cout << "Error: Harga maksimum harus berupa angka!\n";
+                    continue;
+                }
+                
+                if (max <= 0) {
+                    cout << "Error: Harga maksimum harus lebih dari 0!\n";
+                    continue;
+                }
+                
+                if (max < min) {
+                    cout << "Error: Harga maksimum tidak boleh kurang dari harga minimum!\n";
+                    cout << "Harga minimum yang diinput: Rp" << min << "\n";
+                    continue;
+                }
+                
+                inputValid = true;
             }
             cin.ignore();
-            
-            // Validasi nilai logis harga maksimum
-            if (max <= 0) {
-                cout << "\nHarga maksimum harus lebih dari 0!\n";
-                break;
-            }
-            
-            if (max < min) {
-                cout << "\nHarga maksimum tidak boleh kurang dari harga minimum!\n";
-                break;
-            }
             
             cout << "\nMencari bouquet dengan harga Rp" << min << " - Rp" << max << "...\n";
             cout << "\nHasil pencarian:\n";
@@ -953,7 +1018,7 @@ void menuCariBouquet(BST* tree) {
             
             if (resultCount == 0) {
                 cout << "\nTidak ada bouquet dalam range harga Rp" 
-                     << min << " - Rp" << max << ".\n";
+                        << min << " - Rp" << max << ".\n";
             } else {
                 cout << "\nDitemukan " << resultCount << " bouquet(s) dalam range harga tersebut.\n";
             }
@@ -965,15 +1030,32 @@ void menuCariBouquet(BST* tree) {
             getline(cin, ukuran);
             
             if (ukuran.empty()) {
-                cout << "\nUkuran tidak boleh kosong!\n";
+                cout << "\nError: Ukuran tidak boleh kosong!\n";
+                break;
+            }
+            
+            bool isNumber = true;
+            for (int i = 0; i < ukuran.length(); i++) {
+                if (!isdigit(ukuran[i])) {
+                    isNumber = false;
+                    break;
+                }
+            }
+            
+            if (isNumber) {
+                cout << "\nError: Ukuran harus berupa huruf (S/M/L), bukan angka!\n";
                 break;
             }
             
             if (ukuran != "S" && ukuran != "M" && ukuran != "L" && 
                 ukuran != "s" && ukuran != "m" && ukuran != "l") {
-                cout << "\nUkuran harus S, M, atau L!\n";
+                cout << "\nError: Ukuran tidak valid! Hanya menerima S, M, atau L.\n";
                 break;
             }
+            
+            if (ukuran == "s") ukuran = "S";
+            if (ukuran == "m") ukuran = "M";
+            if (ukuran == "l") ukuran = "L";
             
             cout << "\nMencari bouquet ukuran " << ukuran << "...\n";
             cout << "\nHasil pencarian:\n";
@@ -992,7 +1074,7 @@ void menuCariBouquet(BST* tree) {
     }
 }
 
-void menuHapusBouquet(BST* &tree) {
+void hapusBouquet(BST* &tree) {
     if (tree == Nil) {
         cout << "Katalog masih kosong!\n";
         return;
@@ -1042,15 +1124,14 @@ void menuLihatTransaksi(TreeTransaksi tree) {
     cout << string(90, '=') << "\n";
 }
 
-void menuLaporanStatistik(BST* tree, TreeTransaksi treeTransaksi) {
+void laporanStatistik(BST* tree, TreeTransaksi treeTransaksi) {
     clearScreen();
     
     cout << "\n";
     cout << "================================================\n";
-    cout << "        LAPORAN PENJUALAN BLOOMTRACK\n";
+    cout << "        LAPORAN STATISTIK BLOOMTRACK\n";
     cout << "================================================\n";
     
-    // 1. PENJUALAN BUNGA PER HARI
     cout << "\n[1] PENJUALAN BUNGA PER HARI\n";
     cout << string(70, '=') << "\n";
     cout << "No. | Nama Bunga     | Stok Tangkai | Harga/Tangkai | Total Harian\n";
@@ -1076,12 +1157,11 @@ void menuLaporanStatistik(BST* tree, TreeTransaksi treeTransaksi) {
     cout << "Harga per tangkai: Mawar Rp5.000, Lily Rp7.000, Tulip Rp6.000, Daisy Rp4.500, Sunflower Rp8.000\n";
     cout << string(70, '=') << "\n";
     
-    // 2. RIWAYAT TRANSAKSI
-    cout << "\n[2] RIWAYAT TRANSAKSI PENJUALAN\n";
+    cout << "\n[2] RIWAYAT ORDER BOUQUET\n";
     cout << string(100, '=') << "\n";
     
     if (jumlahTransaksi == 0) {
-        cout << "Belum ada transaksi penjualan.\n";
+        cout << "Belum ada order bouquet.\n";
     } else {
         cout << "No. | Nama Pembeli       | Item Bouquet         | Total Harga\n";
         cout << string(100, '=') << "\n";

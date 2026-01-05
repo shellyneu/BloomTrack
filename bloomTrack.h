@@ -95,7 +95,7 @@ void displayHeaderTransaksi();
 
 bool cekStokCukup(int resepBunga[]);
 void kurangiStok(int resepBunga[]);
-void beliBouquet(BST* tree, TreeTransaksi &treeTransaksi);
+void orderBouquet(BST* tree, TreeTransaksi &treeTransaksi);
 
 void cekStokGudang();
 void restockBunga();
@@ -114,11 +114,11 @@ void cetakPenjualanBungaPerHari();
 void katalogBouquet(BinTree &tree);
 
 void tampilkanMenu();
-void menuLihatKatalog(BST* tree);
-void menuCariBouquet(BST* tree);
-void menuHapusBouquet(BST* &tree);
+void lihatKatalogBouquet(BST* tree);
+void cariBouquet(BST* tree);
+void hapusBouquet(BST* &tree);
 void menuLihatTransaksi(TreeTransaksi tree);
-void menuLaporanStatistik(BST* tree, TreeTransaksi treeTransaksi);
+void laporanStatistik(BST* tree, TreeTransaksi treeTransaksi);
 void clearScreen();
 
 #endif
