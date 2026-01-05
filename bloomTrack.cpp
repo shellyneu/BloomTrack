@@ -822,7 +822,7 @@ void lihatKatalogBouquet(BST* tree) {
     cout << "Pilih cara tampilan:\n";
     cout << "1. Berdasarkan Harga (Termurah ke Termahal)\n";
     cout << "2. Berdasarkan Harga Menengah Dulu\n";
-    cout << "3. Berdasarkan Harga Ekstrem (Budget & Premium)\n";
+    cout << "3. Berdasarkan Harga (Budget & Premium)\n";
     cout << "4. Berdasarkan Urutan Penambahan\n";
     cout << "Pilihan: ";
     
@@ -842,7 +842,7 @@ void lihatKatalogBouquet(BST* tree) {
             preorder(tree);
             break;
         case 3:
-            cout << "[POSTORDER TRAVERSAL - TAMPILAN HARGA EKSTREM (Budget & Premium Dulu)]\n";
+            cout << "[POSTORDER TRAVERSAL - TAMPILAN HARGA (Budget & Premium Dulu)]\n";
             postorder(tree);
             break;
         case 4:
