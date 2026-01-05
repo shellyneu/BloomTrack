@@ -36,10 +36,16 @@ void dealokasi(node nodeHapus){
 void insertNode(BST* &root, node newNode) {
     if (root == Nil) {
         root = newNode;
-    } else if (newNode->data.namaBouquet < root->data.namaBouquet) {
+    } else if (newNode->data.harga < root->data.harga) {
         insertNode(root->left, newNode);
-    } else {
+    } else if (newNode->data.harga > root->data.harga) {
         insertNode(root->right, newNode);
+    } else {
+        if (newNode->data.namaBouquet < root->data.namaBouquet) {
+            insertNode(root->left, newNode);
+        } else {
+            insertNode(root->right, newNode);
+        }
     }
 }
 
@@ -348,9 +354,6 @@ void orderBouquet(BST* tree, TreeTransaksi &treeTransaksi) {
             
             totalBelanja += node->data.harga;
             jumlahItemBeli++;
-            
-            cout << "\nBouquet ditambahkan ke keranjang!\n";
-            cout << "Total item: " << jumlahItemBeli << " | Total: Rp " << totalBelanja << "\n";
         }
         
         if (jumlahItemBeli < MAX_ITEM_TRANSAKSI) {
