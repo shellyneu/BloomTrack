@@ -6,6 +6,7 @@
 using namespace std;
 
 const int JUMLAH_JENIS_BUNGA = 5;
+const int MAX_TRANSAKSI = 100;
 const string NAMA_BUNGA[JUMLAH_JENIS_BUNGA] = {
     "Mawar", "Lily", "Tulip", "Daisy", "Sunflower"
 };
@@ -57,6 +58,8 @@ typedef BSTTransaksi* TreeTransaksi;
 #define Nil nullptr
 
 extern int nomorTransaksiTerakhir;
+extern Transaksi riwayatTransaksi[MAX_TRANSAKSI];
+extern int jumlahTransaksi;
 
 bool isEmpty(BinTree tree);
 bool isEmptyTransaksi(TreeTransaksi tree);
@@ -79,8 +82,8 @@ void preorder(BST* tree);
 void postorder(BST* tree);
 void levelOrder(BST* tree);
 
-void searchByHarga(BST* tree, long minHarga, long maxHarga);
-void searchByUkuran(BST* tree, string ukuran);
+int searchByHarga(BST* tree, long minHarga, long maxHarga);  // Modified: returns count
+int searchByUkuran(BST* tree, string ukuran);  // Modified: returns count
 
 nodeTransaksi alokasiTransaksi(Transaksi transaksi);
 void dealokasiTransaksi(nodeTransaksi node);
