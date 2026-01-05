@@ -593,7 +593,7 @@ void tampilkanStatistik(BST* tree) {
 
 void katalogBouquet(BinTree &tree) {
     Bouquet b1;
-    b1.namaBouquet = "Romantis";
+    b1.namaBouquet = "Srikandi";
     b1.harga = 150000;
     b1.ukuran = "M";
     b1.resepBunga[0] = 5; 
@@ -603,7 +603,7 @@ void katalogBouquet(BinTree &tree) {
     b1.resepBunga[4] = 0;
     
     Bouquet b2;
-    b2.namaBouquet = "Cerah";
+    b2.namaBouquet = "Dewisri";
     b2.harga = 120000;
     b2.ukuran = "L";
     b2.resepBunga[0] = 0;
@@ -613,7 +613,7 @@ void katalogBouquet(BinTree &tree) {
     b2.resepBunga[4] = 2;
     
     Bouquet b3;
-    b3.namaBouquet = "Elegan";
+    b3.namaBouquet = "Arimbi";
     b3.harga = 200000;
     b3.ukuran = "L";
     b3.resepBunga[0] = 3;
@@ -623,7 +623,7 @@ void katalogBouquet(BinTree &tree) {
     b3.resepBunga[4] = 1; 
     
     Bouquet b4;
-    b4.namaBouquet = "Sederhana";
+    b4.namaBouquet = "Maharani";
     b4.harga = 75000;
     b4.ukuran = "S";
     b4.resepBunga[0] = 2; 
@@ -633,7 +633,7 @@ void katalogBouquet(BinTree &tree) {
     b4.resepBunga[4] = 0;
     
     Bouquet b5;
-    b5.namaBouquet = "Mini";
+    b5.namaBouquet = "Serena";
     b5.harga = 50000;
     b5.ukuran = "S";
     b5.resepBunga[0] = 1;
@@ -643,7 +643,7 @@ void katalogBouquet(BinTree &tree) {
     b5.resepBunga[4] = 0;
     
     Bouquet b6;
-    b6.namaBouquet = "Harmoni";
+    b6.namaBouquet = "Adonia";
     b6.harga = 100000;
     b6.ukuran = "M";
     b6.resepBunga[0] = 3;
@@ -653,7 +653,7 @@ void katalogBouquet(BinTree &tree) {
     b6.resepBunga[4] = 1;
     
     Bouquet b7;
-    b7.namaBouquet = "Premium";
+    b7.namaBouquet = "Aghniya";
     b7.harga = 180000;
     b7.ukuran = "L";
     b7.resepBunga[0] = 4;
@@ -663,7 +663,7 @@ void katalogBouquet(BinTree &tree) {
     b7.resepBunga[4] = 2;
     
     Bouquet b8;
-    b8.namaBouquet = "Mewah";
+    b8.namaBouquet = "Bidhadari";
     b8.harga = 250000;
     b8.ukuran = "L";
     b8.resepBunga[0] = 5;
